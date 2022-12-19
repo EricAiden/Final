@@ -24,11 +24,11 @@ class UserController extends Controller
             'username' => ['required', 'string'],
             'phone' => ['required', 'digits:10'],
             'pin_code' => ['required', 'digits:6'],
-            'address' => ['required', 'string', 'max:499'],
-
+            'address' => ['required', 'string', 'max:499']
+            
         ]);
 
-        $user = user::findOrFail(Auth::user()->id);
+        $user = User::findOrFail(Auth::user()->id);
         $user->update([
             'name' => $request->username
         ]);
@@ -40,7 +40,7 @@ class UserController extends Controller
             [
                 'phone' => $request->phone,
                 'pin_code' => $request->pin_code,
-                'address' => $request->address,
+                'address' => $request->address
             ]
         );
 

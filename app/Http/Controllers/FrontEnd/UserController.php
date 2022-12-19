@@ -24,8 +24,8 @@ class UserController extends Controller
             'username' => ['required', 'string'],
             'phone' => ['required', 'digits:10'],
             'pin_code' => ['required', 'digits:6'],
-            'address' => ['required', 'string','max:499'],
-            
+            'address' => ['required', 'string', 'max:499'],
+
         ]);
 
         $user = user::findOrFail(Auth::user()->id);
@@ -44,33 +44,34 @@ class UserController extends Controller
             ]
         );
 
-        return redirect()->back()->with('message','User Profile Update');
+        return redirect()->back()->with('message', 'User Profile Update');
     }
 
-        public function passwordCreate()
-        {
-            return view ('frontend.users.change-password');
-        }
+    public function passwordCreate()
+    {
+        return view('frontend.users.change-password');
+        // hiển thị kết quả trả về ở trang change-pasword.blade.php được tạo
+    }
 
-        public function changePassword(Request $request)
-        {
-            $request->validate([
-                'current_password' => ['required','string','min:8'],
-                'password' => ['required', 'string', 'min:8', 'confirmed']
+    public function changePassword(Request $request)
+    {
+        $request->validate([
+            'current_password' => ['required', 'string', 'min:8'],
+            'password' => ['required', 'string', 'min:8', 'confirmed']
+        ]);
+
+        $currentPasswordStatus = Hash::check($request->current_password, auth()->user()->password);
+        // dòng 63 nó sẽ kiểm tra mật khẩu cũ mà bạn nhập vào có đúng không
+        if ($currentPasswordStatus) {
+            // nếu mật khẩu cũ nhập đúng thì nó sẽ cho cập nhật pas mới
+            User::findOrFail(Auth::user()->id)->update([
+                'password' => Hash::make($request->password),
             ]);
-    
-            $currentPasswordStatus = Hash::check($request->current_password, auth()->user()->password);
-            if($currentPasswordStatus){
-    
-                User::findOrFail(Auth::user()->id)->update([
-                    'password' => Hash::make($request->password),
-                ]);
-    
-                return redirect()->back()->with('message','Password Updated Successfully');
-    
-            }else{
-    
-                return redirect()->back()->with('message','Current Password does not match with Old Password');
-            }
+
+            return redirect()->back()->with('message', 'Password Updated Successfully');
+        } else {
+            // và ngược lại thì ở dòng dưới dịch ra là mật khẩu hiện tại ko khớp vs mật khẩu cũ 
+            return redirect()->back()->with('message', 'Current Password does not match with Old Password');
         }
+    }
 }

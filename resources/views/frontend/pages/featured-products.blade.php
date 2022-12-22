@@ -7,7 +7,7 @@
         <div class="category-container">
             <div class="cate-box">
                 <div class="cat-prd-oustanding">
-                    <div class="title">New Arrivals</div>
+                    <div class="title">Feature Products</div>
                     <div class="cat-prd-tabs">
                         <a href="{{ ('collections') }}">View more</a>
                     </div>

@@ -14,9 +14,9 @@ class FrontEndController extends Controller
     public function index()
     {
         $sliders = Slider::where('status', '0')->get();
-        $trendingProducts = Product::where('trending', '1')->latest()->take(15)->get();
-        $newArrivalsProducts = Product::latest()->take(14)->get();
-        $featuredProducts = Product::where('featured', '1')->latest()->take(14)->get();
+        $trendingProducts = Product::where('trending', '1')->latest()->take(8)->get();
+        $newArrivalsProducts = Product::latest()->take(4)->get();
+        $featuredProducts = Product::where('featured', '1')->latest()->take(4)->get();
         return view('frontend.index', compact('sliders', 'trendingProducts', 'newArrivalsProducts', 'featuredProducts'));
     }
 
@@ -33,7 +33,7 @@ class FrontEndController extends Controller
 
     public function newArrival()
     {
-        $newArrivalsProducts = Product::latest()->take(16)->get();
+        $newArrivalsProducts = Product::latest()->take(8)->get();
         return view('frontend.pages.new-arrival', compact('newArrivalsProducts'));
     }
 

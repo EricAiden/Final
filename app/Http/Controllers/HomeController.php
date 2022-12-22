@@ -25,11 +25,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        // return view('layouts.app');
         $sliders = Slider::where('status', '0')->get();
-        $trendingProducts = Product::where('trending', '1')->latest()->take(15)->get();
-        $newArrivalsProducts = Product::latest()->take(14)->get();
-        $featuredProducts = Product::where('featured', '1')->latest()->take(14)->get();
+        $trendingProducts = Product::where('trending', '1')->latest()->take(8)->get();
+        $newArrivalsProducts = Product::latest()->take(4)->get();
+        $featuredProducts = Product::where('featured', '1')->latest()->take(4)->get();
         return view('frontend.index', compact('sliders', 'trendingProducts', 'newArrivalsProducts', 'featuredProducts'));
     }
 }
